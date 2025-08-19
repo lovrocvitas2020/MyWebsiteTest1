@@ -3,8 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moja Prva Stranica</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Križić Kružić</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 20px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    /* Stil za igru */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .cell {
+      background: white;
+      border: 2px solid #4CAF50;
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .cell.taken {
+      cursor: not-allowed;
+      background: #eee;
+    }
+
+    #status {
+      font-size: 1.2rem;
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    footer {
+      background: #eee;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -12,25 +86,95 @@
     <nav>
       <a href="#about">O meni</a>
       <a href="#contact">Kontakt</a>
+      <a href="#game">Igra</a>
     </nav>
   </header>
 
   <main>
-  <section id="about">
+    <section id="about">
       <h2>O meni</h2>
-      <p>Ovo je jednostavna stranica napravljena za testiranje.</p>
-	  <p>Zovem se Lovro.</p>
+      <p>Zovem se Lovro i učim web development 🚀</p>
     </section>
 
     <section id="contact">
       <h2>Kontakt</h2>
       <p>Možete me pronaći na <a href="https://github.com/">GitHubu</a>.</p>
     </section>
+
+    <section id="game">
+      <h2>Igra: Križić-Kružić ❌⭕</h2>
+      <div id="status">Na potezu: X</div>
+      <div class="board" id="board"></div>
+      <button onclick="resetGame()">Nova igra</button>
+    </section>
   </main>
 
   <footer>
     <p>© 2025 Moja Prva Stranica</p>
   </footer>
+
+  <script>
+    const board = document.getElementById("board");
+    const statusText = document.getElementById("status");
+    let currentPlayer = "X";
+    let gameActive = true;
+    let cells = Array(9).fill("");
+
+    // Kreiraj 9 polja
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.addEventListener("click", () => makeMove(i, cell));
+      board.appendChild(cell);
+    }
+
+    function makeMove(index, cell) {
+      if (!gameActive || cells[index] !== "") return;
+      cells[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add("taken");
+
+      if (checkWinner()) {
+        statusText.textContent = `Pobjednik: ${currentPlayer}! 🎉`;
+        gameActive = false;
+        return;
+      }
+
+      if (!cells.includes("")) {
+        statusText.textContent = "Neriješeno! 🤝";
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      statusText.textContent = `Na potezu: ${currentPlayer}`;
+    }
+
+    function checkWinner() {
+      const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8], // redovi
+        [0,3,6], [1,4,7], [2,5,8], // kolone
+        [0,4,8], [2,4,6]           // dijagonale
+      ];
+      return winPatterns.some(pattern => {
+        return pattern.every(i => cells[i] === currentPlayer);
+      });
+    }
+
+    function resetGame() {
+      cells = Array(9).fill("");
+      board.innerHTML = "";
+      gameActive = true;
+      currentPlayer = "X";
+      statusText.textContent = `Na potezu: ${currentPlayer}`;
+
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.addEventListener("click", () => makeMove(i, cell));
+        board.appendChild(cell);
+      }
+    }
+  </script>
 </body>
 </html>
-
