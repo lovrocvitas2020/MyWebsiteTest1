@@ -31,7 +31,43 @@
     .back-link {
       margin-top: 20px;
       display: inline-block;
-    }
+    } 
+    .bpmn-diagram {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.bpmn-event, .bpmn-task, .bpmn-gateway {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 120px;
+}
+
+.bpmn-event {
+  background-color: #dff9fb;
+  border: 2px solid #00a8ff;
+}
+
+.bpmn-task {
+  background-color: #f6e58d;
+  border: 2px solid #f9ca24;
+}
+
+.bpmn-gateway {
+  background-color: #ffbe76;
+  border: 2px dashed #e58e26;
+}
+
+.bpmn-arrow {
+  font-size: 24px;
+  color: #7f8fa6;
+}
+
   </style>
 </head>
 <body>
@@ -71,6 +107,21 @@
     View BPMN Diagram – Requirements Identification (NATEC Blog)
   </a>
 </p>
+
+  <h2>Process Example: BPMN-style Diagram</h2>
+<div class="bpmn-diagram">
+  <div class="bpmn-event">Start</div>
+  <div class="bpmn-arrow">→</div>
+  <div class="bpmn-task">Identify Requirements</div>
+  <div class="bpmn-arrow">→</div>
+  <div class="bpmn-task">Prioritize Needs</div>
+  <div class="bpmn-arrow">→</div>
+  <div class="bpmn-gateway">Decision</div>
+  <div class="bpmn-arrow">→</div>
+  <div class="bpmn-task">Aggregate Data</div>
+  <div class="bpmn-arrow">→</div>
+  <div class="bpmn-event">End</div>
+</div>
 
 
   <a class="back-link" href="sP1.html">← Back to sP1 Overview</a>
